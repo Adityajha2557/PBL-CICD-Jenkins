@@ -23,21 +23,20 @@ pipeline {
         }
 
         stage('Deploy to Kubernetes') {
-            steps {
-                echo 'Deploying application to Kubernetes...'
-                bat 'kubectl apply -f k8s/deployment.yaml'
-                bat 'kubectl apply -f k8s/service.yaml'
-            }
-        }
-
-        stage('Verify Deployment') {
-            steps {
-                echo 'Checking Kubernetes deployment...'
-                bat 'kubectl get pods'
-                bat 'kubectl get services'
-            }
-        }
+    steps {
+        echo 'Deploying application to Kubernetes...'
+        bat 'set KUBECONFIG=C:\\Users\\shrek\\.kube\\config && kubectl apply -f k8s/deployment.yaml'
+        bat 'set KUBECONFIG=C:\\Users\\shrek\\.kube\\config && kubectl apply -f k8s/service.yaml'
     }
+}
+
+        sstage('Verify Deployment') {
+    steps {
+        echo 'Checking Kubernetes deployment...'
+        bat 'set KUBECONFIG=C:\\Users\\shrek\\.kube\\config && kubectl get pods'
+        bat 'set KUBECONFIG=C:\\Users\\shrek\\.kube\\config && kubectl get services'
+    }
+}
 
     post {
         success {
