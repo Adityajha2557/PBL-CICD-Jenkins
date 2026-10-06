@@ -4,6 +4,7 @@ pipeline {
     environment {
         IMAGE_NAME = "pbl-cicd-app"
         IMAGE_TAG = "latest"
+        KUBECONFIG = "C:\\Users\\shrek\\.kube\\config"
     }
 
     stages {
@@ -23,20 +24,21 @@ pipeline {
         }
 
         stage('Deploy to Kubernetes') {
-    steps {
-        echo 'Deploying application to Kubernetes...'
-        bat 'set KUBECONFIG=C:\\Users\\shrek\\.kube\\config && kubectl apply -f k8s/deployment.yaml'
-        bat 'set KUBECONFIG=C:\\Users\\shrek\\.kube\\config && kubectl apply -f k8s/service.yaml'
-    }
-}
+            steps {
+                echo 'Deploying application to Kubernetes...'
+                bat 'kubectl apply -f k8s/deployment.yaml'
+                bat 'kubectl apply -f k8s/service.yaml'
+            }
+        }
 
-        sstage('Verify Deployment') {
-    steps {
-        echo 'Checking Kubernetes deployment...'
-        bat 'set KUBECONFIG=C:\\Users\\shrek\\.kube\\config && kubectl get pods'
-        bat 'set KUBECONFIG=C:\\Users\\shrek\\.kube\\config && kubectl get services'
+        stage('Verify Deployment') {
+            steps {
+                echo 'Checking Kubernetes deployment...'
+                bat 'kubectl get pods'
+                bat 'kubectl get services'
+            }
+        }
     }
-}
 
     post {
         success {
