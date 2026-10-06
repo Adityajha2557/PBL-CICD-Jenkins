@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: pbl-cicd-container
-          image: pbl-cicd-app:1.0
+          image: pbl-cicd-app:latest
           imagePullPolicy: Never
           ports:
             - containerPort: 5000
